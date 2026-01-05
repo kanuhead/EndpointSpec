@@ -1,0 +1,494 @@
+{
+    "$schema": "https://json-schema.org/draft/2025-12/schema",
+    "$id": "https://example.com/schemas/http-endpoint-spec.schema.json",
+    "title": "HTTP Endpoint Spec (SQL Server + Ktor) v1",
+    "type": "object",
+    "required": [
+        "api",
+        "endpoints"
+    ],
+    "properties": {
+        "api": {
+            "type": "integer",
+            "const": 1
+        },
+        "endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "#/$defs/endpoint"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "patternProperties": {
+        "^x-": {}
+    },
+    "$defs": {
+        "httpMethod": {
+            "type": "string",
+            "enum": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+            ]
+        },
+        "scalarType": {
+            "type": "string",
+            "enum": [
+                "string",
+                "int",
+                "long",
+                "boolean",
+                "uuid",
+                "decimal",
+                "datetime"
+            ]
+        },
+        "schemaRef": {
+            "type": "string",
+            "minLength": 1
+        },
+        "paramSpec": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/$defs/scalarType"
+                },
+                "required": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "default": {}
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "bodySpec": {
+            "type": "object",
+            "required": [
+                "schema",
+                "contentType"
+            ],
+            "properties": {
+                "schema": {
+                    "$ref": "#/$defs/schemaRef"
+                },
+                "contentType": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "responseSpec": {
+            "type": "object",
+            "required": [
+                "schema"
+            ],
+            "properties": {
+                "schema": {
+                    "$ref": "#/$defs/schemaRef"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "sqlBlock": {
+            "type": "object",
+            "required": [
+                "text"
+            ],
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "valueSource": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Binding expression. Examples: $path.id, $query.includeDeleted, $body.email"
+        },
+        "bindMap": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+                "$ref": "#/$defs/valueSource"
+            },
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "resultMode": {
+            "type": "string",
+            "enum": [
+                "many",
+                "one",
+                "oneOrNone",
+                "rowsAffected"
+            ]
+        },
+        "onNoneSpec": {
+            "type": "object",
+            "required": [
+                "status",
+                "body"
+            ],
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 599
+                },
+                "body": {
+                    "$ref": "#/$defs/templatedBody"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "onZeroSpec": {
+            "type": "object",
+            "required": [
+                "status",
+                "body"
+            ],
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 599
+                },
+                "body": {
+                    "$ref": "#/$defs/templatedBody"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "onNonZeroSpec": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 599
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "templatedBody": {
+            "type": "object",
+            "required": [
+                "schema"
+            ],
+            "properties": {
+                "schema": {
+                    "$ref": "#/$defs/schemaRef"
+                },
+                "template": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "sqlQueryResult": {
+            "type": "object",
+            "required": [
+                "mode",
+                "mapTo"
+            ],
+            "properties": {
+                "mode": {
+                    "$ref": "#/$defs/resultMode"
+                },
+                "mapTo": {
+                    "$ref": "#/$defs/schemaRef"
+                },
+                "onNone": {
+                    "$ref": "#/$defs/onNoneSpec"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "mode": {
+                                "const": "oneOrNone"
+                            }
+                        },
+                        "required": [
+                            "mode"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "onNone"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "mode": {
+                                "enum": [
+                                    "many",
+                                    "one"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "mode"
+                        ]
+                    },
+                    "then": {
+                        "not": {
+                            "required": [
+                                "onNone"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "sqlExecResult": {
+            "type": "object",
+            "required": [
+                "mode",
+                "onZero",
+                "onNonZero"
+            ],
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "const": "rowsAffected"
+                },
+                "onZero": {
+                    "$ref": "#/$defs/onZeroSpec"
+                },
+                "onNonZero": {
+                    "$ref": "#/$defs/onNonZeroSpec"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "implSqlQuery": {
+            "type": "object",
+            "required": [
+                "kind",
+                "datasource",
+                "sql",
+                "bind",
+                "result"
+            ],
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "const": "sql.query"
+                },
+                "datasource": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "sql": {
+                    "$ref": "#/$defs/sqlBlock"
+                },
+                "bind": {
+                    "$ref": "#/$defs/bindMap"
+                },
+                "result": {
+                    "$ref": "#/$defs/sqlQueryResult"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "implSqlExec": {
+            "type": "object",
+            "required": [
+                "kind",
+                "datasource",
+                "sql",
+                "bind",
+                "result"
+            ],
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "const": "sql.exec"
+                },
+                "datasource": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "sql": {
+                    "$ref": "#/$defs/sqlBlock"
+                },
+                "bind": {
+                    "$ref": "#/$defs/bindMap"
+                },
+                "result": {
+                    "$ref": "#/$defs/sqlExecResult"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "implSpec": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/implSqlQuery"
+                },
+                {
+                    "$ref": "#/$defs/implSqlExec"
+                }
+            ]
+        },
+        "responsesMap": {
+            "type": "object",
+            "minProperties": 1,
+            "propertyNames": {
+                "type": "string",
+                "pattern": "^[1-5][0-9][0-9]$"
+            },
+            "additionalProperties": {
+                "$ref": "#/$defs/responseSpec"
+            },
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "endpoint": {
+            "type": "object",
+            "required": [
+                "id",
+                "method",
+                "path",
+                "responses",
+                "impl"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "method": {
+                    "$ref": "#/$defs/httpMethod"
+                },
+                "path": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "pathParams": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "$ref": "#/$defs/paramSpec"
+                    },
+                    "patternProperties": {
+                        "^x-": {}
+                    }
+                },
+                "query": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "$ref": "#/$defs/paramSpec"
+                    },
+                    "patternProperties": {
+                        "^x-": {}
+                    }
+                },
+                "headers": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "$ref": "#/$defs/paramSpec"
+                    },
+                    "patternProperties": {
+                        "^x-": {}
+                    }
+                },
+                "body": {
+                    "$ref": "#/$defs/bodySpec"
+                },
+                "responses": {
+                    "$ref": "#/$defs/responsesMap"
+                },
+                "impl": {
+                    "$ref": "#/$defs/implSpec"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "method": {
+                                "enum": [
+                                    "GET",
+                                    "DELETE"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "method"
+                        ]
+                    },
+                    "then": {
+                        "not": {
+                            "required": [
+                                "body"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
