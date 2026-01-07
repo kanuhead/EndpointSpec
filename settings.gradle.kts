@@ -8,9 +8,11 @@
 
 pluginManagement {
     // Include 'plugins build' to define convention plugins.
+
+
     includeBuild("build-logic")
-    includeBuild("spec-codegen")
 }
+
 
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs

@@ -1,0 +1,93 @@
+{
+    "api": 1,
+    "endpoints": [
+        {
+            "id": "GetUsers",
+            "method": "GET",
+            "path": "/users",
+            "responses": {
+                "200": {
+                    "schema": "User[]"
+                }
+            },
+            "impl": {
+                "kind": "sql.query",
+                "datasource": "main",
+                "sql": {
+                    "text": "SELECT * FROM Users"
+                },
+                "bind": {},
+                "result": {
+                    "mode": "many",
+                    "mapTo": "User"
+                }
+            }
+        },
+        {
+            "id": "GetUser",
+            "method": "GET",
+            "path": "/users/{id}",
+            "pathParams": {
+                "id": {
+                    "type": "int",
+                    "required": true
+                }
+            },
+            "responses": {
+                "200": {
+                    "schema": "User"
+                },
+                "404": {
+                    "schema": "Error"
+                }
+            },
+            "impl": {
+                "kind": "sql.query",
+                "datasource": "main",
+                "sql": {
+                    "text": "SELECT * FROM Users WHERE id = :id"
+                },
+                "bind": {
+                    "id": "$path.id"
+                },
+                "result": {
+                    "mode": "oneOrNone",
+                    "mapTo": "User",
+                    "onNone": {
+                        "status": 404,
+                        "body": {
+                            "schema": "Error",
+                            "template": "{\"message\": \"User not found\"}"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "models": {
+        "User": {
+            "fields": {
+                "id": {
+                    "type": "int",
+                    "required": true
+                },
+                "name": {
+                    "type": "string",
+                    "required": true
+                },
+                "email": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        "Error": {
+            "fields": {
+                "message": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    }
+}

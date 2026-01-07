@@ -7,7 +7,6 @@
 
 plugins {
     alias(libs.plugins.ktor)
-    alias(libs.plugins.kotlin.jvm)
     id("buildlogic.kotlin-application-conventions")
 }
 

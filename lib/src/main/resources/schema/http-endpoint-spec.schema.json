@@ -18,6 +18,12 @@
             "items": {
                 "$ref": "#/$defs/endpoint"
             }
+        },
+        "models": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/$defs/modelSpec"
+            }
         }
     },
     "additionalProperties": false,
@@ -65,6 +71,24 @@
                     "default": false
                 },
                 "default": {}
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-": {}
+            }
+        },
+        "modelSpec": {
+            "type": "object",
+            "required": [
+                "fields"
+            ],
+            "properties": {
+                "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/$defs/paramSpec"
+                    }
+                }
             },
             "additionalProperties": false,
             "patternProperties": {
@@ -423,7 +447,6 @@
                 },
                 "pathParams": {
                     "type": "object",
-                    "default": {},
                     "additionalProperties": {
                         "$ref": "#/$defs/paramSpec"
                     },
@@ -433,7 +456,6 @@
                 },
                 "query": {
                     "type": "object",
-                    "default": {},
                     "additionalProperties": {
                         "$ref": "#/$defs/paramSpec"
                     },
@@ -443,7 +465,6 @@
                 },
                 "headers": {
                     "type": "object",
-                    "default": {},
                     "additionalProperties": {
                         "$ref": "#/$defs/paramSpec"
                     },
