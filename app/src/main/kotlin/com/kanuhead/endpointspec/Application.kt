@@ -1,11 +1,24 @@
 package com.kanuhead.endpointspec
 
-import io.ktor.server.application.*
+import com.kanuhead.endpoint.Endpoint
+import java.nio.charset.StandardCharsets
 
-fun main(args: Array<String>) {
-    io.ktor.server.netty.EngineMain.main(args)
-}
+fun main() {
+    val specText: String = Thread.currentThread()
+        .contextClassLoader
+        .getResourceAsStream("openapi.yaml")
+        ?.use { input -> input.readBytes().toString(StandardCharsets.UTF_8) }
+        ?: error("Resource not found on classpath: openapi.yaml")
 
-fun Application.module() {
-    configureRouting()
+    val result = Endpoint().load("openapi.yaml")
+    
+    result.fold(
+        { error -> 
+            System.err.println("Error loading spec: ${error.message}")
+            error.printStackTrace()
+        },
+        { 
+            println("Hello World!")
+        }
+    )
 }

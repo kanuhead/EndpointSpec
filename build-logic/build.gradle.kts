@@ -17,6 +17,8 @@ repositories {
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.json.kotlin.schema.codegen)
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.jackson.dataformat.yaml)
 }
 
 

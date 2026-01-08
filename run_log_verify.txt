@@ -1,0 +1,30 @@
+Starting a Gradle Daemon, 1 busy and 1 incompatible and 18 stopped Daemons could not be reused, use --status for details
+> Task :build-logic:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :build-logic:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :build-logic:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :build-logic:compilePluginsBlocks UP-TO-DATE
+> Task :build-logic:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :build-logic:generateScriptPluginAdapters UP-TO-DATE
+> Task :build-logic:compileKotlin UP-TO-DATE
+> Task :build-logic:compileJava NO-SOURCE
+> Task :build-logic:pluginDescriptors UP-TO-DATE
+> Task :build-logic:processResources UP-TO-DATE
+> Task :build-logic:classes UP-TO-DATE
+> Task :build-logic:jar UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :lib:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :lib:compileKotlin UP-TO-DATE
+> Task :lib:compileJava NO-SOURCE
+> Task :app:compileKotlin UP-TO-DATE
+> Task :app:compileJava NO-SOURCE
+> Task :app:processResources UP-TO-DATE
+> Task :app:classes UP-TO-DATE
+> Task :lib:processResources NO-SOURCE
+> Task :lib:classes UP-TO-DATE
+> Task :lib:jar UP-TO-DATE
+
+> Task :app:run
+Hello World!
+
+BUILD SUCCESSFUL in 41s
+14 actionable tasks: 1 executed, 13 up-to-date

@@ -1,15 +1,15 @@
 [versions]
 kotlin = "2.2.20"
-kotlin-gradle-plugin = "2.2.20"
 ktor = "3.3.3"
 logback = "1.4.14"
 arrow = "2.2.1.1"
 serialization = "1.8.0"
+swagger-core = "2.2.41"
+swagger-parser = "2.1.37"
+kotlin-gradle-plugin = "2.2.20"
 json-kotlin-gradle = "0.121"
 json-kotlin-schema-codegen = "0.121"
-
-
-
+jackson = "2.15.3"
 
 
 [libraries]
@@ -25,7 +25,11 @@ arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 json-kotlin-gradle = { module = "net.pwall.json:json-kotlin-gradle", version.ref = "json-kotlin-gradle" }
 json-kotlin-schema-codegen = { module = "net.pwall.json:json-kotlin-schema-codegen", version.ref = "json-kotlin-schema-codegen" }
-
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+swagger-core = { module = "io.swagger.core.v3:swagger-core", version.ref = "swagger-core" }
+swagger-parser = { module = "io.swagger.parser.v3:swagger-parser", version.ref = "swagger-parser" }
+swagger-models = { module = "io.swagger.core.v3:swagger-models", version.ref = "swagger-core" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

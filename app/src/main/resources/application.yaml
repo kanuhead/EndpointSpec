@@ -1,7 +1,0 @@
-ktor:
-    development: true
-    application:
-        modules:
-            - com.kanuhead.endpointSpec.ApplicationKt.module
-    deployment:
-        port: 8080

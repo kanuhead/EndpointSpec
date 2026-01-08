@@ -1,0 +1,70 @@
+> Task :build-logic:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :build-logic:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :build-logic:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :build-logic:compilePluginsBlocks UP-TO-DATE
+> Task :build-logic:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :build-logic:generateScriptPluginAdapters UP-TO-DATE
+> Task :build-logic:compileKotlin UP-TO-DATE
+> Task :build-logic:compileJava NO-SOURCE
+> Task :build-logic:pluginDescriptors UP-TO-DATE
+> Task :build-logic:processResources UP-TO-DATE
+> Task :build-logic:classes UP-TO-DATE
+> Task :build-logic:jar UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :lib:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :lib:compileKotlin UP-TO-DATE
+> Task :lib:compileJava NO-SOURCE
+> Task :app:compileKotlin UP-TO-DATE
+> Task :app:compileJava NO-SOURCE
+> Task :app:processResources UP-TO-DATE
+> Task :app:classes UP-TO-DATE
+> Task :lib:processResources NO-SOURCE
+> Task :lib:classes UP-TO-DATE
+> Task :lib:jar UP-TO-DATE
+
+> Task :app:run
+2026-01-07 16:26:45.107 [main] WARN  i.swagger.v3.parser.OpenAPIV3Parser - Exception while reading:
+io.swagger.v3.parser.exception.ReadContentException: Unable to read location `tst`
+	at io.swagger.v3.parser.OpenAPIV3Parser.readContentFromLocation(OpenAPIV3Parser.java:313)
+	at io.swagger.v3.parser.OpenAPIV3Parser.readLocation(OpenAPIV3Parser.java:95)
+	at io.swagger.parser.OpenAPIParser.readLocation(OpenAPIParser.java:16)
+	at com.kanuhead.endpoint.Endpoint.load(Endpoint.kt:15)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt:15)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt)
+Caused by: java.lang.RuntimeException: Could not find tst on the classpath
+	at io.swagger.v3.parser.util.ClasspathHelper.loadFileFromClasspath(ClasspathHelper.java:33)
+	at io.swagger.v3.parser.OpenAPIV3Parser.readContentFromLocation(OpenAPIV3Parser.java:304)
+	... 5 common frames omitted
+2026-01-07 16:26:45.151 [main] ERROR i.s.parser.SwaggerCompatConverter - failed to read resource listing
+java.lang.RuntimeException: Could not find tst on the classpath
+	at io.swagger.parser.util.ClasspathHelper.loadFileFromClasspath(ClasspathHelper.java:31)
+	at io.swagger.parser.SwaggerCompatConverter.readResourceListing(SwaggerCompatConverter.java:206)
+	at io.swagger.parser.SwaggerCompatConverter.read(SwaggerCompatConverter.java:122)
+	at io.swagger.parser.SwaggerCompatConverter.readWithInfo(SwaggerCompatConverter.java:93)
+	at io.swagger.parser.SwaggerParser.readWithInfo(SwaggerParser.java:45)
+	at io.swagger.v3.parser.converter.SwaggerConverter.readLocation(SwaggerConverter.java:83)
+	at io.swagger.parser.OpenAPIParser.readLocation(OpenAPIParser.java:16)
+	at com.kanuhead.endpoint.Endpoint.load(Endpoint.kt:15)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt:15)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt)
+Exception in thread "main" java.lang.IllegalStateException: Unable to load OpenAPI spec from tst
+	at com.kanuhead.endpoint.Endpoint.load(Endpoint.kt:17)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt:15)
+	at com.kanuhead.endpointspec.ApplicationKt.main(Application.kt)
+
+> Task :app:run FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:run'.
+> Process 'command 'C:\Users\whiting\.gradle\jdks\eclipse_adoptium-17-amd64-windows.2\bin\java.exe'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+14 actionable tasks: 1 executed, 13 up-to-date
